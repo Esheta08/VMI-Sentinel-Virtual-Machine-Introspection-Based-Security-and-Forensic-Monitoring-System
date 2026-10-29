@@ -1,0 +1,5 @@
+
+# VMI-Sentinel runtime artifacts
+collector/native/vmi_proc_monitor
+monitor.err
+*.jsonl
