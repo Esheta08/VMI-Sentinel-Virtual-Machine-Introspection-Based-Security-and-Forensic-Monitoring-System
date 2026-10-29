@@ -1,0 +1,239 @@
+geu@backup1-HP-Elite-Tower-800-G9-Desktop-PC:~/vmi-guest$ sudo ~/kvm-vmi/kvm/tools/kvm/kvmi/kvmi-test /tmp/kvmi.sock
+Waiting...
+tmux new -s vmi
+^C  
+geu@backup1-HP-Elite-Tower-800-G9-Desktop-PC:~/vmi-guest$ sudo ~/kvm-vmi/kvm/tools/kvm/kvmi/kvmi-test /tmp/kvmi.sock
+Waiting...
+New handshake: name '' start_time 1793254758
+New guest: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fd 6 ctx (nil)
+Sending the pause command...
+We should receive 2 pause events
+Max gfn: 0x80000
+Waiting...
+Pop event
+PAUSE (vcpu0)
+Enabling CR, MSR and PF events (vcpu0)
+Enabling CR3 events...
+Enabling CR4 events...
+Enabling MSR_STAR events...
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+PAUSE (vcpu1)
+Enabling CR, MSR and PF events (vcpu1)
+Enabling CR4 events...
+Enabling MSR_STAR events...
+Reply with CONTINUE (vcpu1)
+Waiting...
+Pop event
+CR4 0x0 -> 0x20 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR3 0x0 -> 0x542e000 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+Starting #PF test with CR3 0x542e000 (vcpu0)
+Set page access gpa 0x542e000 access r-x [0x5]
+Set page access gpa 0x542f000 access r-x [0x5]
+Set page access gpa 0x5430000 access r-x [0x5]
+Set page access gpa 0x5431000 access r-x [0x5]
+Set page access gpa 0x5432000 access r-x [0x5]
+Set page access gpa 0x5433000 access r-x [0x5]
+Set page access gpa 0x5434000 access r-x [0x5]
+Set page access gpa 0x5435000 access r-x [0x5]
+Set page access gpa 0x5436000 access r-x [0x5]
+Set page access gpa 0x5437000 access r-x [0x5]
+Set page access gpa 0x5438000 access r-x [0x5]
+Set page access gpa 0x5439000 access r-x [0x5]
+Set page access gpa 0x543a000 access r-x [0x5]
+Set page access gpa 0x543b000 access r-x [0x5]
+Set page access gpa 0x543c000 access r-x [0x5]
+Set page access gpa 0x543d000 access r-x [0x5]
+Set page access gpa 0x543e000 access r-x [0x5]
+Set page access gpa 0x543f000 access r-x [0x5]
+Set page access gpa 0x5440000 access r-x [0x5]
+Set page access gpa 0x5441000 access r-x [0x5]
+Disabling CR3 events (vcpu=0)...
+CR3 0x542e000 -> 0x42b28000 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0xa0 -> 0xb0 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0xb0 -> 0x100b0 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+MSR 0xc0000081 0x0 -> 0x23001000000000 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0x100b0 -> 0x1100b0 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0x1100b0 -> 0x3100b0 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0x3100b0 -> 0x3108b0 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0x3108b0 -> 0x7108b0 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0x7108b0 -> 0x7108f0 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0x710ef0 -> 0x750ef0 (vcpu0)
+Reply with CONTINUE (vcpu0)
+Waiting...
+Pop event
+CR4 0x0 -> 0xb0 (vcpu1)
+Reply with CONTINUE (vcpu1)
+Waiting...
+Pop event
+CR4 0xb0 -> 0xa0 (vcpu1)
+Reply with CONTINUE (vcpu1)
+Waiting...
+Pop event
+CR4 0xa0 -> 0x3108a0 (vcpu1)
+Reply with CONTINUE (vcpu1)
+Waiting...
+Pop event
+MSR 0xc0000081 0x0 -> 0x23001000000000 (vcpu1)
+Reply with CONTINUE (vcpu1)
+Waiting...
+Pop event
+CR4 0x310ea0 -> 0x350ea0 (vcpu1)
+Reply with CONTINUE (vcpu1)
+Waiting...
+Pop event
+CR4 0x350ea0 -> 0x750ea0 (vcpu1)
+Reply with CONTINUE (vcpu1)
+Waiting...
+Pop event
+CR4 0x750ea0 -> 0x750ee0 (vcpu1)
+Reply with CONTINUE (vcpu1)
+Waiting...
+Pop event
+PF gva 0xffff8cfc8542e000 gpa 0x542e000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x542e000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc8542f000 gpa 0x542f000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x542f000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85430000 gpa 0x5430000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5430000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85431000 gpa 0x5431000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5431000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85432000 gpa 0x5432000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5432000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85433000 gpa 0x5433000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5433000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85434000 gpa 0x5434000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5434000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85435000 gpa 0x5435000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5435000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85436000 gpa 0x5436000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5436000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85437000 gpa 0x5437000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5437000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85438000 gpa 0x5438000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5438000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85439000 gpa 0x5439000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5439000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc8543a000 gpa 0x543a000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x543a000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc8543b000 gpa 0x543b000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x543b000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc8543c000 gpa 0x543c000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x543c000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc8543d000 gpa 0x543d000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x543d000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc8543e000 gpa 0x543e000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x543e000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc8543f000 gpa 0x543f000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x543f000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85440000 gpa 0x5440000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5440000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+Pop event
+PF gva 0xffff8cfc85441000 gpa 0x5441000 access -w- [0x2] (vcpu0)
+Set page access gpa 0x5441000 access rwx [0x7]
+Reply with RETRY (vcpu0)
+Waiting...
+No event.
+please input gfn :
+		777 for bypass spp test,
+		888 to skip this round.
+888
+Waiting...
+No event.
+please input gfn :
+		777 for bypass spp test,
+		888 to skip this round.
+
+
+TERMINAL 1
+
