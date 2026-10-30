@@ -6,8 +6,10 @@ line), converts each to a VMEvent, and stores it through the existing
 EventPipeline -> PostgreSQL path.
 
 Usage (from the project root, with the venv active and VMI_DB_PASSWORD set):
-  Live:    sudo ./collector/native/vmi_proc_monitor vmi-guest /tmp/kvmi.sock \
-               2>monitor.err | python -m collector.kvmi_process_adapter
+  Live:    sudo ./collector/native/vmi_proc_monitor vmi-guest /tmp/kvmi.sock 0x1fbc0 \
+               2>monitor.err | tee -i -a log.jsonl | python -m collector.kvmi_process_adapter
+           In live mode the adapter ignores Ctrl+C and stops when the collector
+           closes its output, so the final MONITOR_STOPPED event is still stored.
   Replay:  python -m collector.kvmi_process_adapter ~/vmi-guest/proc-events.jsonl
 
 Notes:
@@ -19,6 +21,7 @@ Notes:
 """
 
 import json
+import signal
 import sys
 import uuid
 from datetime import datetime, timezone
@@ -27,10 +30,13 @@ from collector.event_model import VMEvent
 from processor.event_pipeline import EventPipeline
 
 ID_NAMESPACE = uuid.UUID("6f1c2a52-2d0e-4b8e-9a51-6a3e7d0c9b11")
-KNOWN_TYPES = {"PROCESS_OBSERVED", "PROCESS_CREATED", "PROCESS_EXEC", "PROCESS_TERMINATED"}
+KNOWN_TYPES = {"PROCESS_OBSERVED", "PROCESS_CREATED", "PROCESS_EXEC", "PROCESS_TERMINATED",
+               "MONITOR_STARTED", "MONITOR_STOPPED"}
 
 # Detection method per (event type, source). Collector v2 sets these sources.
 SOURCE_NOTES = {
+    ("MONITOR_STARTED", "kvmi_monitor"): "monitoring session started (collector attached to the VM)",
+    ("MONITOR_STOPPED", "kvmi_monitor"): "monitoring session stopped cleanly",
     ("PROCESS_OBSERVED", "kvmi_snapshot"):
         "present when the monitor started (task-list snapshot)",
     ("PROCESS_CREATED", "kvmi_cr3"):
@@ -53,6 +59,8 @@ TYPE_NOTES = {
     "PROCESS_OBSERVED": "present when the monitor started (task-list snapshot)",
     "PROCESS_CREATED": "new address space at first user-mode CR3 load (after fork or exec)",
     "PROCESS_EXEC": "known PID started a new program via exec()",
+    "MONITOR_STARTED": "monitoring session started",
+    "MONITOR_STOPPED": "monitoring session stopped",
     "PROCESS_TERMINATED": "address space no longer present in the guest task list",
 }
 
@@ -96,6 +104,11 @@ def to_vm_event(record: dict) -> VMEvent:
 
 def main() -> int:
     stream = open(sys.argv[1], encoding="utf-8") if len(sys.argv) > 1 else sys.stdin
+    if stream is sys.stdin:
+        # Ctrl+C reaches every program in the pipeline at once. Ignore it here and
+        # stop at end-of-input instead, so the collector's last lines (including
+        # MONITOR_STOPPED) are still stored after the collector shuts down.
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
     pipeline = EventPipeline()
     stored = skipped = failed = 0
 

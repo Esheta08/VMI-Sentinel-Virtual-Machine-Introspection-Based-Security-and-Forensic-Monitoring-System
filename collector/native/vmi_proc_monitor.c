@@ -1,10 +1,12 @@
 /*
- * vmi_proc_monitor.c - VMI-Sentinel native process collector (KVMI + LibVMI), v3.1
+ * vmi_proc_monitor.c - VMI-Sentinel native process collector (KVMI + LibVMI), v3.2
  *
  * Observes guest processes from OUTSIDE the VM. One JSON object per line on
  * stdout; diagnostics on stderr.
  *
  * Events and sources:
+ *   MONITOR_STARTED    kvmi_monitor    collector attached; start of a monitoring session
+ *   MONITOR_STOPPED    kvmi_monitor    clean stop; end of the session (absent after a crash)
  *   PROCESS_OBSERVED   kvmi_snapshot   running when the monitor started
  *   PROCESS_CREATED    kvmi_cr3        new process (PID not tracked yet) seen at a
  *                                      user-mode CR3 load; identity read from the
@@ -460,6 +462,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    emit("MONITOR_STARTED", "kvmi_monitor", -1, "vmi_proc_monitor v3.2", 0, -1, now());
+
     vmi_pause_vm(vmi);
     int complete = snapshot(vmi);
     double t0 = now();
@@ -502,6 +506,7 @@ int main(int argc, char **argv)
         }
     }
 
+    emit("MONITOR_STOPPED", "kvmi_monitor", -1, "vmi_proc_monitor v3.2", 0, -1, now());
     vmi_clear_event(vmi, &cr3_event, NULL);
     vmi_destroy(vmi);
     fprintf(stderr,
