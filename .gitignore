@@ -3,3 +3,7 @@
 collector/native/vmi_proc_monitor
 monitor.err
 *.jsonl
+.venv/
+__pycache__/
+*.pyc
+collector/native/tests/sim

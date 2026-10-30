@@ -1,0 +1,8 @@
+[monitor] waiting for VM 'vmi-guest' on /tmp/kvmi.sock (current_task offset 0x1fbc0)
+libvirt: QEMU Driver error : Domain not found: no domain with matching name 'vmi-guest'
+libvirt: QEMU Driver error : Domain not found: no domain with matching name 'vmi-guest'
+libvirt: QEMU Driver error : Domain not found: no domain with matching id 9999
+[monitor] snapshot complete: 21 address spaces
+[monitor] listening (reconcile every 2.0 s; Ctrl+C to stop)
+VMI_ERROR: --Failed to resume VM while destroying events
+[monitor] stopped: 7889 CR3 events | current_task ok=3889 fail=0 | created cr3=4 reconcile=0 | exec=4 | terminated=4 | dtb_reused=2 | reconcile ok=80 skipped=0

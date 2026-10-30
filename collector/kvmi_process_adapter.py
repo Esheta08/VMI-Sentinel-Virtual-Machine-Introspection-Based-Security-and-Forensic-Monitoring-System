@@ -27,13 +27,38 @@ from collector.event_model import VMEvent
 from processor.event_pipeline import EventPipeline
 
 ID_NAMESPACE = uuid.UUID("6f1c2a52-2d0e-4b8e-9a51-6a3e7d0c9b11")
-KNOWN_TYPES = {"PROCESS_OBSERVED", "PROCESS_CREATED", "PROCESS_TERMINATED"}
+KNOWN_TYPES = {"PROCESS_OBSERVED", "PROCESS_CREATED", "PROCESS_EXEC", "PROCESS_TERMINATED"}
 
-DETECTION_NOTES = {
+# Detection method per (event type, source). Collector v2 sets these sources.
+SOURCE_NOTES = {
+    ("PROCESS_OBSERVED", "kvmi_snapshot"):
+        "present when the monitor started (task-list snapshot)",
+    ("PROCESS_CREATED", "kvmi_cr3"):
+        "new address space at first user-mode CR3 load (after fork or exec)",
+    ("PROCESS_EXEC", "kvmi_cr3"):
+        "known PID started a new program via exec() (new address space, same PID)",
+    ("PROCESS_CREATED", "kvmi_reconcile"):
+        "new address space found by periodic task-list check "
+        "(missed by the CR3 path, or DTB reused)",
+    ("PROCESS_TERMINATED", "kvmi_cr3"):
+        "its address space was reused by another process (old memory freed), "
+        "detected at a user-mode CR3 load",
+    ("PROCESS_TERMINATED", "kvmi_reconcile"):
+        "address space and PID absent from task list; "
+        "time is the first check that missed it (approximate, about 2 s resolution)",
+}
+
+# Fallback for logs from collector v1, which used source=kvmi_cr3 for everything.
+TYPE_NOTES = {
     "PROCESS_OBSERVED": "present when the monitor started (task-list snapshot)",
     "PROCESS_CREATED": "new address space at first user-mode CR3 load (after fork or exec)",
+    "PROCESS_EXEC": "known PID started a new program via exec()",
     "PROCESS_TERMINATED": "address space no longer present in the guest task list",
 }
+
+
+def detection_note(event_type: str, source: str) -> str:
+    return SOURCE_NOTES.get((event_type, source), TYPE_NOTES[event_type])
 
 
 def to_vm_event(record: dict) -> VMEvent:
@@ -52,7 +77,7 @@ def to_vm_event(record: dict) -> VMEvent:
     key = f"{record['vm']}|{event_type}|{pid}|{dtb}|{ts:.6f}"
     description = (
         f"source={source}; dtb={dtb}; vcpu={vcpu}; "
-        f"detection={DETECTION_NOTES[event_type]}"
+        f"detection={detection_note(event_type, source)}"
     )
 
     return VMEvent(
