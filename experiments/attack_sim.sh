@@ -4,8 +4,11 @@
 # /tmp: nothing is downloaded, no privileges are escalated, nothing is modified
 # outside /tmp.
 #
-# Usage: ./attack_sim.sh fast   # rapid recon burst (easy case: seconds long)
-#        ./attack_sim.sh slow   # same commands spread over ~2 min (harder case)
+# Usage: ./attack_sim.sh fast     # rapid recon burst (loud)
+#        ./attack_sim.sh slow     # same commands in 12 bursts, 10 s apart (still loud:
+#                                 #  ~40 processes per burst)
+#        ./attack_sim.sh stealth  # ONE recon command every 30 s for 5 min: about the
+#                                 #  same process rate as normal activity (hard case)
 # Logs start/end with UTC timestamps to ~/workload_attack.log (ground truth).
 set -u
 MODE=${1:-fast}
@@ -27,7 +30,13 @@ EOF
 }
 
 echo "# attack $MODE start $(date -u +%FT%T.%3NZ)" >> "$LOG"
-if [ "$MODE" = "fast" ]; then
+if [ "$MODE" = "stealth" ]; then
+  for c in "id" "whoami" "uname -a" "hostname" "cat /etc/passwd" \
+           "ps -ef" "ss -tulpn" "ip route" "ls -la /tmp" "cat /etc/group"; do
+    bash -c "$c" > /dev/null 2>&1
+    sleep 30
+  done
+elif [ "$MODE" = "fast" ]; then
   for i in $(seq 1 30); do recon; done > /dev/null 2>&1
   for i in $(seq 1 10); do dropped_script; done > /dev/null 2>&1
 else
