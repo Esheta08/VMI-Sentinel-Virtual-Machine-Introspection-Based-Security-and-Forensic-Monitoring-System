@@ -107,6 +107,19 @@ def summarize(scored: pd.DataFrame, labels: pd.Series, attacks,
             "delay_s": None if delay is None else round(delay, 1),
         })
 
+    n_normal_tmp = int(normal.sum())
+    fpr_tmp = (int((normal & flagged).sum()) / n_normal_tmp) if n_normal_tmp else 0.0
+    for item, attack in zip(per_attack, attacks):
+        mask = labels == attack["mode"]
+        item["window_recall"] = (item["flagged"] / item["windows"]) if item["windows"] else None
+        # Flags expected from false alarms alone if this attack were invisible:
+        item["chance_flags"] = round(fpr_tmp * item["windows"], 2)
+        item["roc_auc_vs_normal"] = None
+        sub = mask | normal
+        if mask.any() and normal.any():
+            item["roc_auc_vs_normal"] = float(roc_auc_score(mask[sub].astype(int),
+                                                            scored["anomaly_score"][sub]))
+
     is_attack = (~normal).astype(int)
     auc = None
     if is_attack.nunique() == 2:
@@ -159,8 +172,11 @@ def main(argv=None) -> int:
     for a in report["attacks"]:
         status = f"DETECTED, delay {a['delay_s']} s" if a["detected"] else "MISSED"
         runs = f" ({a['runs']} overlapping runs merged)" if a["runs"] > 1 else ""
-        print(f"attack {a['mode']:>5}{runs}: {a['duration_s']:>6} s, {a['windows']} windows, "
-              f"{a['flagged']} flagged -> {status}")
+        auc = a["roc_auc_vs_normal"]
+        print(f"attack {a['mode']:>7}{runs}: {a['duration_s']:>6} s, {a['windows']} windows, "
+              f"{a['flagged']} flagged (recall {a['window_recall']:.0%}, "
+              f"{a['chance_flags']} expected by chance) -> {status}; "
+              f"AUC vs normal {'n/a' if auc is None else f'{auc:.3f}'}")
     print("ROC-AUC (window level): "
           + ("n/a" if report["roc_auc"] is None else f"{report['roc_auc']:.3f}"))
 

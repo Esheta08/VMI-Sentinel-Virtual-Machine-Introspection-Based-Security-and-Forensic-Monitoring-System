@@ -49,6 +49,9 @@ def test_summary_counts_detection_false_positives_and_delay():
     assert report["false_positives"] == 1
     assert abs(report["false_positive_rate"] - 1 / report["normal_windows"]) < 1e-12
     assert 0.5 < report["roc_auc"] <= 1.0
+    assert fast["window_recall"] == 1.0 and slow["window_recall"] == 0.0
+    assert slow["chance_flags"] == round(report["false_positive_rate"] * slow["windows"], 2)
+    assert fast["roc_auc_vs_normal"] == 1.0
 
 
 def test_overlapping_runs_of_the_same_attack_are_merged():
