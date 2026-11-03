@@ -1,9 +1,15 @@
 
-# VMI-Sentinel runtime artifacts
-collector/native/vmi_proc_monitor
-monitor.err
-*.jsonl
-.venv/
-__pycache__/
-*.pyc
 collector/native/tests/sim
+collector/native/vmi_proc_monitor
+data/
+*.jsonl
+logs/
+models/
+monitor.err
+*.pyc
+__pycache__/
+reports/
+.streamlit/
+*.tar.gz
+.venv/
+# VMI-Sentinel runtime artifacts

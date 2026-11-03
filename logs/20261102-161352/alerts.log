@@ -1,0 +1,5 @@
+[ALERT] 2026-11-02 10:45:00Z  iforest  score=+0.143  created=262 exec=259 short=259  programs: truex256, seqx2, bench.shx1
+[ALERT] 2026-11-02 10:45:00Z  p99_rule score=+3.076  created=262 exec=259 short=259  programs: truex256, seqx2, bench.shx1
+[ALERT] 2026-11-02 10:45:30Z  iforest  score=+0.154  created=35 exec=34 short=33  programs: truex34
+[ALERT] 2026-11-02 10:45:30Z  p99_rule score=+1.041  created=35 exec=34 short=33  programs: truex34
+[ALERT] 2026-11-02 10:57:00Z  iforest  score=+0.042  created=1 exec=1 short=1  programs: systemd-tmpfilex1

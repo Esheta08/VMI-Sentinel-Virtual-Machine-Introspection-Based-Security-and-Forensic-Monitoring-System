@@ -1,0 +1,24 @@
+[adapter] stored MONITOR_STARTED pid=None name=vmi_proc_monitor v3.2
+[adapter] stored PROCESS_OBSERVED pid=1 name=systemd
+[adapter] stored PROCESS_OBSERVED pid=369 name=systemd-journal
+[adapter] stored PROCESS_OBSERVED pid=407 name=multipathd
+[adapter] stored PROCESS_OBSERVED pid=409 name=systemd-udevd
+[adapter] stored PROCESS_OBSERVED pid=496 name=systemd-timesyn
+[adapter] stored PROCESS_OBSERVED pid=546 name=systemd-network
+[adapter] stored PROCESS_OBSERVED pid=548 name=systemd-resolve
+[adapter] stored PROCESS_OBSERVED pid=583 name=cron
+[adapter] stored PROCESS_OBSERVED pid=584 name=dbus-daemon
+[adapter] stored PROCESS_OBSERVED pid=589 name=irqbalance
+[adapter] stored PROCESS_OBSERVED pid=590 name=networkd-dispat
+[adapter] stored PROCESS_OBSERVED pid=591 name=rsyslogd
+[adapter] stored PROCESS_OBSERVED pid=594 name=snapd
+[adapter] stored PROCESS_OBSERVED pid=596 name=systemd-logind
+[adapter] stored PROCESS_OBSERVED pid=603 name=login
+[adapter] stored PROCESS_OBSERVED pid=607 name=agetty
+[adapter] stored PROCESS_OBSERVED pid=649 name=unattended-upgr
+[adapter] stored PROCESS_OBSERVED pid=653 name=sshd
+[adapter] stored PROCESS_OBSERVED pid=856 name=systemd
+[adapter] stored PROCESS_OBSERVED pid=858 name=(sd-pam)
+[adapter] stored PROCESS_OBSERVED pid=864 name=bash
+[adapter] stored MONITOR_STOPPED pid=None name=vmi_proc_monitor v3.2
+[adapter] done: stored=23 skipped=0 failed=0

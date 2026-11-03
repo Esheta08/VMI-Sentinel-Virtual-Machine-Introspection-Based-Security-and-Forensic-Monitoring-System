@@ -1,0 +1,9 @@
+[ALERT] 2026-11-02 08:45:00Z  iforest  score=+0.000  created=10 exec=9 short=6  programs: datex4, sleepx2, demo_session.shx1, nohupx1, bashx1
+[ALERT] 2026-11-02 08:45:00Z  p99_rule score=+0.182  created=10 exec=9 short=6  programs: datex4, sleepx2, demo_session.shx1, nohupx1, bashx1
+[ALERT] 2026-11-02 08:47:00Z  iforest  score=+0.141  created=218 exec=213 short=212  programs: idx23, whoamix23, unamex23, hostnamex23, catx23
+[ALERT] 2026-11-02 08:47:00Z  p99_rule score=+2.876  created=218 exec=213 short=212  programs: idx23, whoamix23, unamex23, hostnamex23, catx23
+[ALERT] 2026-11-02 08:47:30Z  iforest  score=+0.141  created=302 exec=17 short=112  programs: rmx3, catx3, chmodx3, .x.shx3, datex2
+[ALERT] 2026-11-02 08:47:30Z  p99_rule score=+3.078  created=302 exec=17 short=112  programs: rmx3, catx3, chmodx3, .x.shx3, datex2
+[ALERT] 2026-11-02 08:48:00Z  iforest  score=+0.112  created=151 exec=6 short=54  programs: headx2, rmx1, catx1, chmodx1, .x.shx1
+[ALERT] 2026-11-02 08:48:00Z  p99_rule score=+2.385  created=151 exec=6 short=54  programs: headx2, rmx1, catx1, chmodx1, .x.shx1
+[ALERT] 2026-11-02 08:53:30Z  iforest  score=+0.091  created=2 exec=2 short=2  programs: datex2

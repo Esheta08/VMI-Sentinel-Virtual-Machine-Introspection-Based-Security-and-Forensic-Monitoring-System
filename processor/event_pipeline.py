@@ -11,7 +11,5 @@ class EventPipeline:
 
     def handle_event(self, event: VMEvent) -> bool:
         """Process an event and store it in the database."""
-
         processed_event = self.processor.process(event)
-
         return insert_event(processed_event)
