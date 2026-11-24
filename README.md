@@ -1,117 +1,212 @@
-# VMI-Sentinel
-### Virtual Machine Introspection Based Security Monitoring System
+VMI-Sentinel
 
-## 1. Project Description
+Virtual Machine Introspection Based Security and Forensic Monitoring System
 
-VMI-Sentinel is a security monitoring system based on **Virtual Machine Introspection (VMI)**. The project focuses on monitoring virtual machines from outside the guest operating system using the hypervisor and VMI technologies.
+1. About the Project
 
-The system collects information and events from a running virtual machine without depending entirely on software installed inside the guest. The collected data is processed to identify suspicious activities and potential security threats, which are then stored and presented through a monitoring dashboard.
+VMI-Sentinel is a security monitoring system that uses Virtual Machine Introspection (VMI) to monitor the activities of a Guest Virtual Machine from outside its operating system.
 
-## 2. Problem Statement
+Traditional monitoring systems usually install an agent inside the Guest OS to collect information. However, if the Guest OS is compromised, an attacker may also interfere with that monitoring agent.
 
-Traditional security monitoring solutions generally depend on agents or security software running inside the guest operating system. If the guest OS is compromised, attackers may be able to manipulate or disable these monitoring mechanisms.
+VMI-Sentinel takes a different approach. It uses the hypervisor to observe the Guest VM externally, without depending on an in-guest monitoring agent.
 
-VMI provides an alternative approach by allowing monitoring to be performed externally from the hypervisor layer. This project aims to use VMI to collect reliable information about the guest system and use it for security monitoring and threat detection.
+The collected process-related events are processed and stored in a PostgreSQL database. A Machine Learning model analyses the activity to identify unusual behaviour, and the results are displayed through a Streamlit dashboard.
 
-## 3. Objectives
+2. Objectives
 
-- Monitor virtual machines from outside the guest OS.
-- Collect guest system information and security-related events.
-- Process and analyze the collected events.
-- Detect suspicious activities and potential threats.
-- Store monitoring data and security alerts in a database.
-- Provide a dashboard for real-time or near-real-time visualization.
-- Build a modular platform that can be extended with additional security detection techniques.
+To monitor Guest VM activities from outside the operating system.
 
-## 4. Team Members
+To collect process-related information using Virtual Machine Introspection.
 
-Tejas Joshi - VMI and Virtualization
+To process and store collected events in a structured format.
 
-Esheta - Event Processing and Threat Detection
+To identify unusual VM behaviour using Machine Learning.
 
-Parv Saini - Dashboard and Database
+To maintain event history for security monitoring and forensic investigation.
 
-## 5. Technologies and Tools
+To provide a dashboard for viewing events, anomaly scores and alerts.
 
-- **KVM** – Hardware-assisted virtualization
-- **KVMI / KVM-VMI** – Virtual Machine Introspection support
-- **QEMU** – Virtual machine emulator
-- **LibVMI** – Library for accessing guest OS information through VMI
-- **libvirt** – Virtual machine management
-- **Virt-Manager** – Virtual machine management interface
-- **Python** – Backend and event-processing components
-- **PostgreSQL** – Database for storing events and alerts
-- **React** – Monitoring dashboard
-- **Ubuntu Linux** – Development and virtualization environment
-- **Git** – Version control
 
-## 6. System Modules
+Working Flow
 
-### 6.1 VMI and Virtualization
-Responsible for setting up the virtualization environment and enabling VMI-based access to the guest virtual machine. This module uses KVM, KVMI, QEMU and LibVMI to obtain information from the guest externally.
+Guest VM: The virtual machine runs its operating system and processes.
 
-### 6.2 Event Processing and Threat Detection
-Collects and processes events obtained through VMI. The module analyzes system activity and identifies patterns that may indicate suspicious behavior or security threats.
+QEMU/KVM: Provides the virtualization environment and manages the Guest VM.
 
-### 6.3 Database
-Stores collected events, system information, detected threats and security alerts. PostgreSQL is planned to be used as the primary database.
+KVMI: Allows configured monitoring events to be handled through the hypervisor.
 
-### 6.4 Dashboard
-Provides a web-based interface for viewing VM activity, events, detected threats and alerts. The dashboard will help users understand the security state of monitored virtual machines.
+LibVMI Collector: The C-based collector reads the required process information from the Guest VM's memory.
 
-## 7. Project Setup
+Python Adapter: Receives the collector output, validates it and converts it into a standard event format.
 
-1. Set up an Ubuntu Linux host with KVM and libvirt.
-2. Create and configure the guest virtual machine.
-3. Clone and configure the KVM-VMI repository.
-4. Build and configure the KVMI-enabled kernel.
-5. Build the modified QEMU with introspection support.
-6. Configure the guest VM for VMI.
-7. Build and install LibVMI.
-8. Implement event collection and processing.
-9. Configure the PostgreSQL database.
-10. Develop and connect the monitoring dashboard.
+PostgreSQL: Stores the processed events, VM information and alerts.
 
-## 8. Current Project Status
+Feature Extraction: Converts process events into numerical features over fixed time windows.
 
-**Project Status: In Development**
+Isolation Forest: Analyses the features and assigns anomaly scores to identify unusual activity.
 
-### Completed
-- Ubuntu development environment setup
-- KVM and virtualization environment verification
-- QEMU and libvirt setup
-- Guest virtual machine creation
-- KVM-VMI repository setup
-- Selection of the KVMI-V7 branch
-- Initial project architecture and module planning
+Streamlit Dashboard: Displays VM information, event timelines, anomaly scores and alerts.
 
-### In Progress
-- KVM-VMI submodule setup
-- KVMI-enabled kernel configuration
-- Modified QEMU setup
-- LibVMI integration
-- Initial VMI-based guest monitoring
+4. Key Features
 
-### Planned
-- Event collection pipeline
-- Threat detection mechanisms
-- PostgreSQL database integration
-- Web-based monitoring dashboard
-- Real-time security alerts
-- Testing and performance evaluation
+External VM Monitoring: Monitors guest processes without installing a monitoring agent inside the Guest OS.
 
-## 9. Expected Outcome
+Process Event Collection: Collects information related to process creation, execution and termination.
 
-The final system will provide a centralized platform capable of monitoring virtual machines using VMI, processing guest activity, detecting suspicious behavior and presenting security information through a dashboard.
+Event Processing: Converts raw collector output into a consistent structure using the Python adapter.
 
-The project aims to demonstrate how hypervisor-level monitoring can be used as an additional layer of security for virtualized environments.
+Database Management: Stores VM details, events and alerts in PostgreSQL.
 
-## 10. Future Scope
+Anomaly Detection: Uses Isolation Forest to identify behaviour that differs from normal VM activity.
 
-- Advanced memory and process monitoring
-- Real-time threat detection
-- Automated security alerts
-- Detection of rootkits and malicious processes
-- Support for multiple virtual machines
-- Improved visualization and reporting
-- Integration with additional security and threat intelligence systems
+Alert Generation: Records activities identified as anomalous by the detection model.
+
+Event History: Maintains historical records that can be used for further investigation.
+
+Dashboard: Provides a visual interface to monitor events and alerts.
+
+5. Technologies Used
+
+Technology
+
+Purpose
+
+QEMU
+
+Runs and manages virtual machines
+
+KVM
+
+Provides hardware-assisted virtualization
+
+KVMI
+
+Handles configured VM monitoring events
+
+LibVMI
+
+Reads information from Guest VM memory
+
+C
+
+Implements the process monitoring collector
+
+Python
+
+Processes and validates collected events
+
+PostgreSQL
+
+Stores VM details, events and alerts
+
+Scikit-learn
+
+Provides Machine Learning functionality
+
+Isolation Forest
+
+Detects unusual VM behaviour
+
+Streamlit
+
+Displays monitoring information
+
+Git and GitHub
+
+Version control and project management
+
+6. Machine Learning Approach
+
+VMI-Sentinel uses the Isolation Forest algorithm for anomaly detection.
+
+The model is trained using normal VM activity. It learns the usual pattern of process-related behaviour and identifies observations that differ from this baseline.
+
+The model uses five process-related features:
+
+Number of processes created.
+
+Number of processes executed.
+
+Number of processes terminated.
+
+Number of short-lived processes.
+
+Number of distinct programs.
+
+These features are calculated over 30-second time windows.
+
+The trained model assigns anomaly scores to new observations. Activities identified as anomalous are recorded as alerts for further investigation.
+
+Why Isolation Forest?
+
+It does not require labelled attack data for training.
+
+It can learn from normal activity.
+
+It works with a small number of numerical features.
+
+It is suitable for identifying unusual combinations of behaviour.
+
+7. Database
+
+PostgreSQL is used as the central storage system.
+
+It maintains:
+
+Virtual machine information.
+
+Collected process events.
+
+Anomaly alerts.
+
+Historical monitoring records.
+
+The stored information can be queried later to examine previous VM activities and investigate suspicious events.
+
+8. Dashboard
+
+The project uses Streamlit to provide a visual interface for monitoring the Guest VM.
+
+The dashboard displays:
+
+Monitored VM information.
+
+Process event history.
+
+Event timelines.
+
+Anomaly scores.
+
+Generated alerts.
+
+Historical records for investigation.
+
+9. Project Limitations
+
+VMI-Sentinel is an academic prototype and currently focuses on process-related monitoring and basic anomaly detection.
+
+Some limitations include:
+
+Monitoring is focused mainly on selected process events rather than all VM activities.
+
+The ML model is trained on a limited set of collected workloads.
+
+Low-rate or stealthy activities can be difficult to detect.
+
+The monitoring setup depends on compatible kernel configurations and VMI profiles.
+
+Further work is required to improve detection accuracy and reduce monitoring overhead.
+
+10. Future Scope
+
+Monitor additional system activities such as file and network operations.
+
+Improve detection of slow and stealthy attacks.
+
+Explore additional anomaly detection techniques.
+
+Improve monitoring performance using more targeted event handling.
+
+Extend support to multiple virtual machines.
+
+Improve the integrity and protection of stored forensic evidence.
